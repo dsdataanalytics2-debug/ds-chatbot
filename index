@@ -1,0 +1,26 @@
+import pandas as pd
+
+# CSV ফাইল লোড করো
+df = pd.read_csv("medicine_data.csv")
+
+def chatbot_reply(user_input):
+    matches = df[df['MedicineName'].str.lower().str.contains(user_input.lower())]
+    
+    if matches.empty:
+        return "দুঃখিত, আপনার খোঁজা ওষুধ আমাদের ডাটাবেসে নেই।"
+    
+    response = ""
+    for _, row in matches.iterrows():
+        response += "\n--- Medicine Information ---\n"
+        for col in df.columns:
+            response += f"{col}: {row[col]}\n"
+    return response.strip()
+
+print("💊 Medicine Chatbot শুরু হলো (exit লিখে বের হতে পারেন) 💊\n")
+while True:
+    user_msg = input("আপনি: ")
+    if user_msg.lower() == "exit":
+        print("চ্যাট শেষ হলো। ধন্যবাদ।")
+        break
+    bot_response = chatbot_reply(user_msg)
+    print(bot_response)
