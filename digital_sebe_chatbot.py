@@ -67,21 +67,75 @@ st.set_page_config(
 st.markdown("""
 <style>
     .main-header {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
         padding: 2rem;
-        border-radius: 15px;
+        border-radius: 20px;
         margin-bottom: 2rem;
         text-align: center;
         color: white;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .main-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        opacity: 0.3;
+    }
+    
+    .logo-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+    
+    .logo-image {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        margin-right: 1.5rem;
+        border: 4px solid white;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        transition: all 0.3s ease;
+    }
+    
+    .logo-image:hover {
+        transform: scale(1.05);
+        box-shadow: 0 12px 35px rgba(0,0,0,0.5);
     }
     
     .search-container {
-        background: white;
-        padding: 2rem;
-        border-radius: 20px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        padding: 2.5rem;
+        border-radius: 25px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.1);
         margin: 2rem 0;
+        border: 1px solid #e9ecef;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .search-container::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.03), transparent);
+        animation: shimmer 3s infinite;
+    }
+    
+    @keyframes shimmer {
+        0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
     }
     
     .search-bar {
@@ -101,38 +155,58 @@ st.markdown("""
         transform: translateY(-2px);
     }
     
-    /* Google-style search input */
+    /* Enhanced Google-style search input */
     .stTextInput > div > div > input {
         border: 2px solid #e0e0e0 !important;
-        border-radius: 25px !important;
-        padding: 12px 20px !important;
-        font-size: 16px !important;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
-        transition: all 0.3s ease !important;
+        border-radius: 30px !important;
+        padding: 15px 25px !important;
+        font-size: 18px !important;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08) !important;
+        transition: all 0.4s ease !important;
+        background: white !important;
     }
     
     .stTextInput > div > div > input:focus {
         border-color: #667eea !important;
-        box-shadow: 0 0 20px rgba(102, 126, 234, 0.3) !important;
-        transform: translateY(-2px) !important;
+        box-shadow: 0 0 30px rgba(102, 126, 234, 0.2) !important;
+        transform: translateY(-3px) !important;
+        background: #fafbfc !important;
     }
     
-    /* Google-style search button */
+    /* Enhanced Google-style search button */
     .stButton > button {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%) !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
         color: white !important;
         border: none !important;
-        border-radius: 25px !important;
-        padding: 12px 24px !important;
+        border-radius: 30px !important;
+        padding: 15px 30px !important;
         font-weight: bold !important;
         font-size: 16px !important;
-        transition: all 0.3s ease !important;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
+        transition: all 0.4s ease !important;
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4) !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+    
+    .stButton > button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+    
+    .stButton > button:hover::before {
+        left: 100%;
     }
     
     .stButton > button:hover {
-        transform: translateY(-3px) !important;
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6) !important;
+        transform: translateY(-5px) !important;
+        box-shadow: 0 15px 35px rgba(102, 126, 234, 0.6) !important;
+        background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%) !important;
     }
     
     .suggestion-chip {
@@ -154,12 +228,19 @@ st.markdown("""
     }
     
     .feature-card {
-        background: white;
-        padding: 1.5rem;
-        border-radius: 15px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        margin: 1rem 0;
-        border-left: 5px solid #667eea;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        margin: 1.5rem 0;
+        border-left: 6px solid #667eea;
+        transition: all 0.3s ease;
+        border: 1px solid #e9ecef;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
     }
     
     .chat-container {
@@ -192,22 +273,39 @@ st.markdown("""
     
     /* Enhanced suggestion buttons */
     .stButton > button[data-testid="baseButton-secondary"] {
-        background: #f8f9fa !important;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
         color: #333 !important;
-        border: 2px solid #e0e0e0 !important;
+        border: 2px solid #dee2e6 !important;
         border-radius: 25px !important;
-        padding: 10px 20px !important;
-        font-weight: 500 !important;
-        transition: all 0.3s ease !important;
-        margin: 5px !important;
+        padding: 12px 24px !important;
+        font-weight: 600 !important;
+        transition: all 0.4s ease !important;
+        margin: 8px !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+    
+    .stButton > button[data-testid="baseButton-secondary"]::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+        transition: left 0.5s;
+    }
+    
+    .stButton > button[data-testid="baseButton-secondary"]:hover::before {
+        left: 100%;
     }
     
     .stButton > button[data-testid="baseButton-secondary"]:hover {
-        background: #667eea !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
         color: white !important;
         border-color: #667eea !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4) !important;
+        transform: translateY(-3px) !important;
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4) !important;
     }
     
     /* Search results styling */
@@ -221,10 +319,321 @@ st.markdown("""
     
     /* Metrics styling */
     .stMetric {
-        background: #f8f9fa;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 1.5rem;
+        border-radius: 15px;
+        border: 2px solid #dee2e6;
+        transition: all 0.3s ease;
+    }
+    
+    .stMetric:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    
+    /* Enhanced search categories */
+    .search-category {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
         padding: 1rem;
-        border-radius: 10px;
-        border: 2px solid #e0e0e0;
+        border-radius: 15px;
+        margin: 1rem 0;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    /* Quick search buttons */
+    .quick-search-btn {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 20px !important;
+        padding: 10px 20px !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+        margin: 5px !important;
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3) !important;
+    }
+    
+    .quick-search-btn:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.5) !important;
+    }
+    
+    /* Voice search button */
+    .voice-search-btn {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 20px !important;
+        padding: 10px 20px !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+        margin: 5px !important;
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3) !important;
+    }
+    
+    .voice-search-btn:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5) !important;
+    }
+    
+    /* Smart search button */
+    .smart-search-btn {
+        background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 20px !important;
+        padding: 10px 20px !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+        margin: 5px !important;
+        box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3) !important;
+    }
+    
+    .smart-search-btn:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(108, 92, 231, 0.5) !important;
+    }
+    
+    /* Recent search button */
+    .recent-search-btn {
+        background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 20px !important;
+        padding: 10px 20px !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+        margin: 5px !important;
+        box-shadow: 0 4px 15px rgba(253, 121, 168, 0.3) !important;
+    }
+    
+    .recent-search-btn:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(253, 121, 168, 0.5) !important;
+    }
+    
+    /* Popular search buttons */
+    .popular-search-btn {
+        background: linear-gradient(135deg, #00b894 0%, #00cec9 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 20px !important;
+        padding: 12px 24px !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+        margin: 8px !important;
+        box-shadow: 0 6px 20px rgba(0, 184, 148, 0.3) !important;
+        width: 100% !important;
+    }
+    
+    .popular-search-btn:hover {
+        transform: translateY(-3px) !important;
+        box-shadow: 0 12px 30px rgba(0, 184, 148, 0.5) !important;
+    }
+    
+    /* Category buttons */
+    .category-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 20px !important;
+        padding: 12px 20px !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+        margin: 8px !important;
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3) !important;
+        width: 100% !important;
+    }
+    
+    .category-btn:hover {
+        transform: translateY(-3px) !important;
+        box-shadow: 0 12px 30px rgba(102, 126, 234, 0.5) !important;
+    }
+    
+    /* Enhanced selectbox */
+    .stSelectbox > div > div > div {
+        border-radius: 15px !important;
+        border: 2px solid #e0e0e0 !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .stSelectbox > div > div > div:hover {
+        border-color: #667eea !important;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2) !important;
+    }
+    
+    /* Search suggestions container */
+    .search-suggestions {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 2rem;
+        border-radius: 20px;
+        margin: 2rem 0;
+        border: 1px solid #dee2e6;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    }
+    
+    /* Floating action button */
+    .fab {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 1000;
+    }
+    
+    .fab:hover {
+        transform: scale(1.1);
+        box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+    }
+    
+    /* Facebook Messenger style chat results */
+    .chat-result-container {
+        background: #f0f2f5;
+        border-radius: 20px;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    
+    .chat-message {
+        background: white;
+        border-radius: 18px;
+        padding: 1rem 1.5rem;
+        margin: 1rem 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        position: relative;
+        max-width: 80%;
+        word-wrap: break-word;
+    }
+    
+    .chat-message.user {
+        background: #0084ff;
+        color: white;
+        margin-left: auto;
+        border-bottom-right-radius: 5px;
+    }
+    
+    .chat-message.bot {
+        background: white;
+        color: #333;
+        margin-right: auto;
+        border-bottom-left-radius: 5px;
+    }
+    
+    .chat-message.bot::before {
+        content: '';
+        position: absolute;
+        left: -8px;
+        top: 15px;
+        width: 0;
+        height: 0;
+        border: 8px solid transparent;
+        border-right-color: white;
+    }
+    
+    .chat-message.user::after {
+        content: '';
+        position: absolute;
+        right: -8px;
+        top: 15px;
+        width: 0;
+        height: 0;
+        border: 8px solid transparent;
+        border-left-color: #0084ff;
+    }
+    
+    .chat-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        background: rgba(255,255,255,0.1);
+        border-radius: 15px;
+    }
+    
+    .chat-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+    }
+    
+    .chat-info {
+        flex: 1;
+    }
+    
+    .chat-name {
+        font-weight: bold;
+        font-size: 1.1rem;
+        margin: 0;
+    }
+    
+    .chat-status {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        margin: 0;
+    }
+    
+    .chat-time {
+        font-size: 0.8rem;
+        opacity: 0.6;
+    }
+    
+    .chat-content {
+        line-height: 1.6;
+    }
+    
+    .chat-typing {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background: white;
+        border-radius: 18px;
+        margin: 1rem 0;
+        max-width: 80%;
+        margin-right: auto;
+        border-bottom-left-radius: 5px;
+    }
+    
+    .typing-dots {
+        display: flex;
+        gap: 4px;
+    }
+    
+    .typing-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #999;
+        animation: typing 1.4s infinite ease-in-out;
+    }
+    
+    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+    
+    @keyframes typing {
+        0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+        40% { transform: scale(1); opacity: 1; }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -401,66 +810,97 @@ class DigitalSebeChatbot:
             return f"দুঃখিত, একটি ত্রুটি ঘটেছে: {str(e)}"
     
     def process_file_upload(self, uploaded_file):
-        """ফাইল আপলোড প্রসেসিং"""
+        """ফাইল আপলোড প্রসেসিং এবং সেভ"""
         try:
             file_type = uploaded_file.type
             file_name = uploaded_file.name
+            file_content = uploaded_file.read()
+            
+            # Create timestamp for unique filename
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            safe_filename = f"{timestamp}_{file_name.replace(' ', '_')}"
             
             if file_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-                # Excel file - try different engines
+                # Excel file - save to data_files folder
+                file_path = f"uploads/data_files/{safe_filename}"
+                with open(file_path, "wb") as f:
+                    f.write(file_content)
+                
+                # Try different engines for Excel file
                 try:
                     # First try openpyxl engine
-                    df = pd.read_excel(uploaded_file, engine='openpyxl')
-                    st.success(f"✅ Excel ফাইল সফলভাবে আপলোড হয়েছে! মোট {len(df)} টি রো")
+                    df = pd.read_excel(file_path, engine='openpyxl')
+                    st.success(f"✅ Excel ফাইল সফলভাবে আপলোড এবং সেভ হয়েছে! 📁 {file_path}")
+                    st.info(f"📊 মোট {len(df)} টি রো এবং {len(df.columns)} টি কলাম")
                     return df
                 except Exception as e1:
                     try:
                         # Try xlrd engine for older Excel files
-                        df = pd.read_excel(uploaded_file, engine='xlrd')
-                        st.success(f"✅ Excel ফাইল সফলভাবে আপলোড হয়েছে! মোট {len(df)} টি রো")
+                        df = pd.read_excel(file_path, engine='xlrd')
+                        st.success(f"✅ Excel ফাইল সফলভাবে আপলোড এবং সেভ হয়েছে! 📁 {file_path}")
+                        st.info(f"📊 মোট {len(df)} টি রো এবং {len(df.columns)} টি কলাম")
                         return df
                     except Exception as e2:
                         try:
                             # Try odf engine for OpenDocument files
-                            df = pd.read_excel(uploaded_file, engine='odf')
-                            st.success(f"✅ Excel ফাইল সফলভাবে আপলোড হয়েছে! মোট {len(df)} টি রো")
+                            df = pd.read_excel(file_path, engine='odf')
+                            st.success(f"✅ Excel ফাইল সফলভাবে আপলোড এবং সেভ হয়েছে! 📁 {file_path}")
+                            st.info(f"📊 মোট {len(df)} টি রো এবং {len(df.columns)} টি কলাম")
                             return df
                         except Exception as e3:
                             st.error(f"❌ Excel ফাইল পড়তে সমস্যা: {str(e3)}")
-                            st.info("💡 ফাইলটি অন্য ফরম্যাটে সেভ করে আবার চেষ্টা করুন।")
+                            st.info("💡 ফাইলটি সেভ হয়েছে কিন্তু পড়তে সমস্যা। অন্য ফরম্যাটে সেভ করে আবার চেষ্টা করুন।")
                             return None
+                            
             elif file_type == "text/csv":
-                # CSV file
-                df = pd.read_csv(uploaded_file)
-                st.success(f"✅ CSV ফাইল সফলভাবে আপলোড হয়েছে! মোট {len(df)} টি রো")
+                # CSV file - save to data_files folder
+                file_path = f"uploads/data_files/{safe_filename}"
+                with open(file_path, "wb") as f:
+                    f.write(file_content)
+                
+                df = pd.read_csv(file_path)
+                st.success(f"✅ CSV ফাইল সফলভাবে আপলোড এবং সেভ হয়েছে! 📁 {file_path}")
+                st.info(f"📊 মোট {len(df)} টি রো এবং {len(df.columns)} টি কলাম")
                 return df
+                
             elif file_type == "application/pdf":
-                # PDF file
+                # PDF file - save to documents folder
                 if PDF_AVAILABLE:
-                    pdf_reader = PyPDF2.PdfReader(uploaded_file)
+                    file_path = f"uploads/documents/{safe_filename}"
+                    with open(file_path, "wb") as f:
+                        f.write(file_content)
+                    
+                    pdf_reader = PyPDF2.PdfReader(file_path)
                     text = ""
                     for page in pdf_reader.pages:
                         text += page.extract_text()
-                    st.success(f"✅ PDF ফাইল সফলভাবে আপলোড হয়েছে!")
-                    return {"type": "pdf", "text": text, "name": file_name}
+                    st.success(f"✅ PDF ফাইল সফলভাবে আপলোড এবং সেভ হয়েছে! 📁 {file_path}")
+                    return {"type": "pdf", "text": text, "name": file_name, "path": file_path}
                 else:
                     st.error("❌ PDF সমর্থন নেই")
                     return None
+                    
             elif file_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                # Word file
+                # Word file - save to documents folder
                 if PDF_AVAILABLE:
-                    doc = docx.Document(uploaded_file)
+                    file_path = f"uploads/documents/{safe_filename}"
+                    with open(file_path, "wb") as f:
+                        f.write(file_content)
+                    
+                    doc = docx.Document(file_path)
                     text = ""
                     for paragraph in doc.paragraphs:
                         text += paragraph.text + "\n"
-                    st.success(f"✅ Word ফাইল সফলভাবে আপলোড হয়েছে!")
-                    return {"type": "docx", "text": text, "name": file_name}
+                    st.success(f"✅ Word ফাইল সফলভাবে আপলোড এবং সেভ হয়েছে! 📁 {file_path}")
+                    return {"type": "docx", "text": text, "name": file_name, "path": file_path}
                 else:
                     st.error("❌ Word সমর্থন নেই")
                     return None
+                    
             else:
                 st.error("❌ অসমর্থিত ফাইল ফরম্যাট")
                 return None
+                
         except Exception as e:
             st.error(f"❌ ফাইল প্রসেসিং এ সমস্যা: {str(e)}")
             return None
@@ -538,131 +978,371 @@ def main():
 
 def show_home_page(chatbot):
     """হোম পেজ দেখানো"""
+    # Check if there's a search query first
+    search_query = st.session_state.get('search_query', '')
+    
+    # Show search results at the very top if query exists
+    if search_query:
+        # Facebook Messenger style chat results
+        st.markdown("""
+        <div class="chat-result-container">
+            <div class="chat-header">
+                <div class="chat-avatar">🏥</div>
+                <div class="chat-info">
+                    <div class="chat-name">DIGITAL SEBE CHATBOT</div>
+                    <div class="chat-status">Online • Medical AI Assistant</div>
+                </div>
+                <div class="chat-time">Just now</div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        # User message
+        st.markdown(f"""
+        <div class="chat-message user">
+            <div class="chat-content">
+                <strong>🔍 আপনার প্রশ্ন:</strong><br>
+                {search_query}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Bot typing indicator
+        st.markdown("""
+        <div class="chat-message bot">
+            <div class="chat-typing">
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+                <span style="margin-left: 10px; color: #666;">Typing...</span>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Bot response
+        if len(search_query.split()) == 1:  # Single word search
+            # Show comprehensive information in chat style
+            comprehensive_info = chatbot.get_comprehensive_info(search_query)
+            
+            # Split comprehensive info into multiple chat messages
+            info_parts = comprehensive_info.split('\n\n')
+            
+            for i, part in enumerate(info_parts):
+                if part.strip() and not part.startswith('#'):
+                    # Clean up the text for chat display
+                    clean_text = part.replace('**', '').replace('---', '').strip()
+                    if clean_text and len(clean_text) > 10:
+                        st.markdown(f"""
+                        <div class="chat-message bot">
+                            <div class="chat-content">
+                                {clean_text}
+                            </div>
+                        </div>
+                        """, unsafe_allow_html=True)
+            
+            # Also show detailed results in chat style
+            results = chatbot.search_medicine(search_query)
+            if results:
+                st.markdown(f"""
+                <div class="chat-message bot">
+                    <div class="chat-content">
+                        <strong>✅ {len(results)} টি ফলাফল পাওয়া গেছে</strong><br>
+                        নিচে বিস্তারিত তথ্য দেখুন:
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                # Display results in chat style
+                for i, result in enumerate(results[:5]):  # Show first 5 results
+                    result_text = f"""
+                    <strong>💊 ফলাফল {i+1}</strong><br>
+                    <strong>সাদৃশ্য:</strong> {result['similarity']:.2f}<br>
+                    """
+                    
+                    # Add key information
+                    for key, value in result['data'].items():
+                        if key != 'index' and str(value) != 'nan' and str(value).strip():
+                            result_text += f"<strong>{key}:</strong> {value}<br>"
+                    
+                    st.markdown(f"""
+                    <div class="chat-message bot">
+                        <div class="chat-content">
+                            {result_text}
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+        else:  # Multi-word search
+            results = chatbot.search_medicine(search_query)
+            if results:
+                st.markdown(f"""
+                <div class="chat-message bot">
+                    <div class="chat-content">
+                        <strong>✅ {len(results)} টি ফলাফল পাওয়া গেছে</strong><br>
+                        আপনার প্রশ্নের উত্তর নিচে দেওয়া হলো:
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                # Display results in chat style
+                for i, result in enumerate(results[:5]):  # Show first 5 results
+                    result_text = f"""
+                    <strong>📋 ফলাফল {i+1}</strong><br>
+                    <strong>সাদৃশ্য:</strong> {result['similarity']:.2f}<br>
+                    """
+                    
+                    # Add key information
+                    for key, value in result['data'].items():
+                        if key != 'index' and str(value) != 'nan' and str(value).strip():
+                            result_text += f"<strong>{key}:</strong> {value}<br>"
+                    
+                    st.markdown(f"""
+                    <div class="chat-message bot">
+                        <div class="chat-content">
+                            {result_text}
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div class="chat-message bot">
+                    <div class="chat-content">
+                        <strong>ℹ️ কোনো ফলাফল পাওয়া যায়নি</strong><br>
+                        অন্য কীওয়ার্ড দিয়ে চেষ্টা করুন।
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+        
+        # Close chat container
+        st.markdown("</div>", unsafe_allow_html=True)
+        
+        st.markdown("---")
+    
+    # Main header
     st.markdown("""
     <div class="main-header">
-        <h1>🏥 DIGITAL SEBE CHATBOT</h1>
-        <p style="font-size: 1.2rem; margin-top: 1rem;">আপনার বিশ্বস্ত মেডিকেল AI সহকারী</p>
-        <p style="font-size: 1rem; margin-top: 0.5rem;">সব ধরনের স্বাস্থ্য সম্পর্কিত প্রশ্নের উত্তর পেতে এখানে অনুসন্ধান করুন</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Enhanced Google-style Search Bar
-    st.markdown("""
-    <div class="search-container">
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <h2 style="color: #333; font-size: 2rem; margin-bottom: 1rem;">🔍 আপনার প্রশ্ন অনুসন্ধান করুন</h2>
-            <p style="color: #666; font-size: 1.1rem;">Google এর মত সহজে অনুসন্ধান করুন</p>
+        <div class="logo-container">
+            <img src="data:image/jpeg;base64,{}" class="logo-image" alt="DIGITAL SEBE LOGO">
+            <div>
+                <h1 style="margin: 0; font-size: 3rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">🏥 DIGITAL SEBE CHATBOT</h1>
+                <p style="font-size: 1.3rem; margin-top: 0.5rem; opacity: 0.9;">আপনার বিশ্বস্ত মেডিকেল AI সহকারী</p>
+                <p style="font-size: 1rem; margin-top: 0.5rem; opacity: 0.8;">সব ধরনের স্বাস্থ্য সম্পর্কিত প্রশ্নের উত্তর পেতে এখানে অনুসন্ধান করুন</p>
+            </div>
         </div>
     </div>
+    """.format(base64.b64encode(open("chatbot pic.jpg", "rb").read()).decode()), unsafe_allow_html=True)
+    
+    # Main search section with enhanced styling - MOVED UP
+    st.markdown("""
+    <div class="search-suggestions">
+        <h3 style="text-align: center; color: #333; margin-bottom: 2rem; font-size: 1.8rem;">🔍 মূল অনুসন্ধান</h3>
+    </div>
     """, unsafe_allow_html=True)
     
-    # Centered search input with Google-like styling
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
-        search_query = st.text_input(
+    # Search input with enhanced options
+    col1, col2, col3 = st.columns([2, 1, 1])
+    
+    with col1:
+        current_search = st.text_input(
             "🔍 আপনার প্রশ্ন বা কীওয়ার্ড লিখুন...",
             placeholder="যেমন: ডায়াবেটিস, হৃদরোগ, লিভার সমস্যা ইত্যাদি",
             key="home_search",
-            label_visibility="collapsed"
+            label_visibility="collapsed",
+            value=search_query,
+            help="আপনার মেডিকেল প্রশ্ন বা কীওয়ার্ড এখানে লিখুন"
         )
-        
-        # Search button
-        if st.button("🔍 অনুসন্ধান করুন", type="primary", use_container_width=True):
-            if search_query:
-                st.session_state.search_query = search_query
+    
+    with col2:
+        search_category = st.selectbox(
+            "📂 ক্যাটাগরি",
+            ["সব", "রোগ", "ওষুধ", "লক্ষণ", "চিকিৎসা", "খাদ্যতালিকা"],
+            key="search_category",
+            help="অনুসন্ধানের ক্যাটাগরি নির্বাচন করুন"
+        )
+    
+    with col3:
+        search_type = st.selectbox(
+            "🔍 ধরন",
+            ["সাধারণ", "বিস্তারিত", "দ্রুত"],
+            key="search_type",
+            help="অনুসন্ধানের ধরন নির্বাচন করুন"
+        )
+    
+    # Enhanced Search button row with better styling
+    st.markdown("<br>", unsafe_allow_html=True)
+    col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
+    
+    with col1:
+        if st.button("🔍 অনুসন্ধান করুন", type="primary", use_container_width=True,
+                    help="মূল অনুসন্ধান শুরু করুন"):
+            if current_search:
+                st.session_state.search_query = current_search
                 st.rerun()
     
-    # Show search results at the top if query exists
-    if search_query or st.session_state.get('search_query'):
-        query = search_query or st.session_state.get('search_query')
-        if query:
-            st.markdown("---")
-            st.markdown(f"### 🔍 '{query}' এর জন্য অনুসন্ধান ফলাফল")
-            
-            # Use comprehensive search for better results
-            if len(query.split()) == 1:  # Single word search
-                # Show comprehensive information
-                comprehensive_info = chatbot.get_comprehensive_info(query)
-                st.markdown(comprehensive_info)
-                
-                # Also show detailed results
-                results = chatbot.search_medicine(query)
-                if results:
-                    st.success(f"✅ {len(results)} টি ফলাফল পাওয়া গেছে")
-                    
-                    # Display results in a better format
-                    for i, result in enumerate(results):
-                        with st.expander(f"📋 বিস্তারিত ফলাফল {i+1} - সাদৃশ্য: {result['similarity']:.2f}", expanded=False):
-                            col1, col2 = st.columns([1, 3])
-                            with col1:
-                                st.metric("সাদৃশ্য", f"{result['similarity']:.2f}")
-                            with col2:
-                                for key, value in result['data'].items():
-                                    if key != 'index':
-                                        st.write(f"**{key}:** {value}")
-            else:  # Multi-word search
-                results = chatbot.search_medicine(query)
-                if results:
-                    st.success(f"✅ {len(results)} টি ফলাফল পাওয়া গেছে")
-                    
-                    # Display results in a better format
-                    for i, result in enumerate(results):
-                        with st.expander(f"📋 ফলাফল {i+1} - সাদৃশ্য: {result['similarity']:.2f}", expanded=True):
-                            col1, col2 = st.columns([1, 3])
-                            with col1:
-                                st.metric("সাদৃশ্য", f"{result['similarity']:.2f}")
-                            with col2:
-                                for key, value in result['data'].items():
-                                    if key != 'index':
-                                        st.write(f"**{key}:** {value}")
-                else:
-                    st.info("ℹ️ কোনো ফলাফল পাওয়া যায়নি। অন্য কীওয়ার্ড দিয়ে চেষ্টা করুন।")
+    with col2:
+        if st.button("🎯 স্মার্ট সার্চ", use_container_width=True,
+                    help="ক্যাটাগরি এবং ধরন সহ স্মার্ট অনুসন্ধান"):
+            if current_search:
+                # Smart search with category and type
+                smart_query = f"{current_search} {search_category} {search_type}"
+                st.session_state.search_query = smart_query
+                st.rerun()
     
-    # Enhanced Search Suggestions
+    with col3:
+        if st.button("📱 ভয়েস সার্চ", use_container_width=True,
+                    help="ভয়েস সার্চ ব্যবহার করুন"):
+            st.info("🎤 ভয়েস সার্চ: 'ডায়াবেটিসের লক্ষণ কী?' বলুন")
+            # Simulate voice search
+            if current_search:
+                st.session_state.search_query = current_search
+                st.rerun()
+    
+    with col4:
+        if st.button("🔄 রিসেন্ট সার্চ", use_container_width=True,
+                    help="সাম্প্রতিক অনুসন্ধান দেখুন"):
+            # Show recent searches
+            if 'recent_searches' not in st.session_state:
+                st.session_state.recent_searches = []
+            
+            if st.session_state.recent_searches:
+                st.info("📋 সাম্প্রতিক অনুসন্ধান:")
+                for i, recent in enumerate(st.session_state.recent_searches[-5:]):
+                    if st.button(f"🔍 {recent}", key=f"recent_{i}"):
+                        st.session_state.search_query = recent
+                        st.rerun()
+            else:
+                st.info("📋 কোনো সাম্প্রতিক অনুসন্ধান নেই")
+    
+    st.markdown("---")
+    
+    # Quick search suggestions with enhanced styling - MOVED DOWN AND MADE SMALLER
     st.markdown("""
-    <div class="feature-card">
-        <h3>🔍 জনপ্রিয় অনুসন্ধান</h3>
-        <p>নিচের বিষয়গুলো সম্পর্কে জানতে ক্লিক করুন:</p>
+    <div class="search-suggestions">
+        <h3 style="text-align: center; color: #333; margin-bottom: 1.5rem; font-size: 1.5rem;">⚡ দ্রুত অনুসন্ধান অপশন</h3>
+        <p style="text-align: center; color: #666; margin-bottom: 1.5rem; font-size: 0.9rem;">জনপ্রিয় মেডিকেল প্রশ্নগুলো এক ক্লিকে অনুসন্ধান করুন</p>
     </div>
     """, unsafe_allow_html=True)
     
-    # Better organized suggestions
-    suggestions = [
-        "ডায়াবেটিস", "হৃদরোগ", "লিভারের সমস্যা", "কিডনির সমস্যা",
-        "গ্যাস্ট্রিক", "যৌন সমস্যা ও টেস্টোস্টেরন", "হাঁপানি", "ক্যান্সার"
-    ]
+    # Search categories with enhanced styling - MADE SMALLER
+    col1, col2, col3 = st.columns(3)
     
-    # Create a more organized grid
-    cols = st.columns(4)
-    for i, suggestion in enumerate(suggestions):
-        col_idx = i % 4
-        with cols[col_idx]:
-            if st.button(f"🔍 {suggestion}", key=f"sugg_{i}", use_container_width=True):
-                st.session_state.home_search = suggestion
+    with col1:
+        st.markdown("""
+        <div class="search-category" style="padding: 0.7rem; margin: 0.5rem 0;">
+            <h4 style="margin: 0; color: white; font-size: 0.9rem;">🏥 রোগের ধরন</h4>
+        </div>
+        """, unsafe_allow_html=True)
+        disease_types = ["ডায়াবেটিস", "হৃদরোগ", "ক্যান্সার", "হাঁপানি", "গ্যাস্ট্রিক"]
+        for disease in disease_types:
+            if st.button(f"🔍 {disease}", key=f"disease_{disease}", use_container_width=True, 
+                        help=f"{disease} সম্পর্কে বিস্তারিত জানুন"):
+                st.session_state.search_query = disease
                 st.rerun()
     
-    # How it works section with better styling
+    with col2:
+        st.markdown("""
+        <div class="search-category" style="padding: 0.7rem; margin: 0.5rem 0;">
+            <h4 style="margin: 0; color: white; font-size: 0.9rem;">💊 ওষুধের ধরন</h4>
+        </div>
+        """, unsafe_allow_html=True)
+        medicine_types = ["এন্টিবায়োটিক", "পেইন কিলার", "ভিটামিন", "ইনসুলিন", "অ্যান্টি-ডায়াবেটিক"]
+        for med in medicine_types:
+            if st.button(f"🔍 {med}", key=f"med_{med}", use_container_width=True,
+                        help=f"{med} সম্পর্কে বিস্তারিত জানুন"):
+                st.session_state.search_query = med
+                st.rerun()
+    
+    with col3:
+        st.markdown("""
+        <div class="search-category" style="padding: 0.7rem; margin: 0.5rem 0;">
+            <h4 style="margin: 0; color: white; font-size: 0.9rem;">🔬 লক্ষণ ও চিকিৎসা</h4>
+        </div>
+        """, unsafe_allow_html=True)
+        symptoms = ["জ্বর", "মাথাব্যথা", "পেটব্যথা", "কাশি", "বমি"]
+        for symptom in symptoms:
+            if st.button(f"🔍 {symptom}", key=f"symptom_{symptom}", use_container_width=True,
+                        help=f"{symptom} সম্পর্কে বিস্তারিত জানুন"):
+                st.session_state.search_query = symptom
+                st.rerun()
+    
+    st.markdown("---")
+    
+    # Popular searches in a beautiful grid - MADE SMALLER
+    st.markdown("""
+    <div class="search-suggestions">
+        <h3 style="text-align: center; color: #333; margin-bottom: 1.5rem; font-size: 1.5rem;">🚀 জনপ্রিয় অনুসন্ধান</h3>
+        <p style="text-align: center; color: #666; margin-bottom: 1.5rem; font-size: 0.9rem;">সবচেয়ে জনপ্রিয় মেডিকেল প্রশ্নগুলো</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    popular_searches = [
+        "ডায়াবেটিসের লক্ষণ", "হৃদরোগের চিকিৎসা", "লিভার সমস্যার সমাধান",
+        "গ্যাস্ট্রিকের ওষুধ", "হাঁপানির প্রতিকার", "ক্যান্সারের লক্ষণ",
+        "রক্তচাপ নিয়ন্ত্রণ", "মাথাব্যথার ওষুধ", "পেটব্যথার সমাধান"
+    ]
+    
+    cols = st.columns(3)
+    for i, search in enumerate(popular_searches):
+        col_idx = i % 3
+        with cols[col_idx]:
+            if st.button(f"⚡ {search}", key=f"popular_{i}", use_container_width=True,
+                        help=f"{search} সম্পর্কে জানুন"):
+                st.session_state.search_query = search
+                st.rerun()
+    
+    # Save search to recent searches
+    if current_search and current_search not in st.session_state.get('recent_searches', []):
+        if 'recent_searches' not in st.session_state:
+            st.session_state.recent_searches = []
+        st.session_state.recent_searches.append(current_search)
+        # Keep only last 10 searches
+        if len(st.session_state.recent_searches) > 10:
+            st.session_state.recent_searches = st.session_state.recent_searches[-10:]
+    
+    # Enhanced search tips section
     st.markdown("""
     <div class="feature-card">
-        <h3>🤖 আমাদের চ্যাটবট কিভাবে কাজ করে</h3>
-        <div style="padding: 1rem; background: #f8f9fa; border-radius: 10px;">
-            <ul style="list-style: none; padding: 0;">
-                <li style="margin: 0.5rem 0; padding: 0.5rem; background: white; border-radius: 8px; border-left: 4px solid #667eea;">
-                    <strong>🔍 স্মার্ট অনুসন্ধান:</strong> আপনার প্রশ্নের সাথে সম্পর্কিত সব তথ্য খুঁজে বের করে
-                </li>
-                <li style="margin: 0.5rem 0; padding: 0.5rem; background: white; border-radius: 8px; border-left: 4px solid #667eea;">
-                    <strong>💊 মেডিকেল ডেটাবেস:</strong> হাজার হাজার ওষুধ এবং চিকিৎসা পদ্ধতির তথ্য
-                </li>
-                <li style="margin: 0.5rem 0; padding: 0.5rem; background: white; border-radius: 8px; border-left: 4px solid #667eea;">
-                    <strong>📱 WhatsApp Marketing:</strong> একসাথে অনেক নম্বরে মেসেজ পাঠানো
-                </li>
-                <li style="margin: 0.5rem 0; padding: 0.5rem; background: white; border-radius: 8px; border-left: 4px solid #667eea;">
-                    <strong>📁 ফাইল আপলোড:</strong> Excel, PDF, Word ফাইল আপলোড করে তথ্য যোগ করা
-                </li>
-                <li style="margin: 0.5rem 0; padding: 0.5rem; background: white; border-radius: 8px; border-left: 4px solid #667eea;">
-                    <strong>💬 AI চ্যাট:</strong> ChatGPT এর মত বুদ্ধিমান কথোপকথন
-                </li>
-            </ul>
+        <h3 style="color: #667eea; text-align: center;">💡 অনুসন্ধান টিপস</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
+            <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; border-left: 4px solid #28a745;">
+                <strong>🔍 একক শব্দ:</strong> "ডায়াবেটিস" লিখলে সব তথ্য পাবেন
+            </div>
+            <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; border-left: 4px solid #ffc107;">
+                <strong>🎯 বিস্তারিত প্রশ্ন:</strong> "ডায়াবেটিসের লক্ষণ কী?" লিখুন
+            </div>
+            <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; border-left: 4px solid #17a2b8;">
+                <strong>📂 ক্যাটাগরি:</strong> রোগ, ওষুধ, লক্ষণ ইত্যাদি নির্বাচন করুন
+            </div>
+            <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; border-left: 4px solid #dc3545;">
+                <strong>⚡ দ্রুত সার্চ:</strong> জনপ্রিয় বোতামগুলো ব্যবহার করুন
+            </div>
+        </div>
+    </div>
+    
+    <!-- How it works section with enhanced styling -->
+    <div class="feature-card">
+        <h3 style="color: #667eea; text-align: center;">🤖 আমাদের চ্যাটবট কিভাবে কাজ করে</h3>
+        <div style="padding: 1.5rem; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 15px; margin-top: 1rem;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                <div style="background: white; padding: 1rem; border-radius: 12px; border-left: 5px solid #667eea; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                    <strong style="color: #667eea;">🔍 স্মার্ট অনুসন্ধান:</strong> আপনার প্রশ্নের সাথে সম্পর্কিত সব তথ্য খুঁজে বের করে
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 12px; border-left: 5px solid #667eea; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                    <strong style="color: #667eea;">💊 মেডিকেল ডেটাবেস:</strong> হাজার হাজার ওষুধ এবং চিকিৎসা পদ্ধতির তথ্য
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 12px; border-left: 5px solid #667eea; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                    <strong style="color: #667eea;">📱 WhatsApp Marketing:</strong> একসাথে অনেক নম্বরে মেসেজ পাঠানো
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 12px; border-left: 5px solid #667eea; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                    <strong style="color: #667eea;">📁 ফাইল আপলোড:</strong> Excel, PDF, Word ফাইল আপলোড করে তথ্য যোগ করা
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 12px; border-left: 5px solid #667eea; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                    <strong style="color: #667eea;">💬 AI চ্যাট:</strong> ChatGPT এর মত বুদ্ধিমান কথোপকথন
+                </div>
+                <div style="background: white; padding: 1rem; border-radius: 12px; border-left: 5px solid #667eea; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                    <strong style="color: #667eea;">🎯 ক্যাটাগরি ভিত্তিক:</strong> রোগ, ওষুধ, লক্ষণ অনুযায়ী ভাগ করে তথ্য প্রদান
+                </div>
+            </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -812,24 +1492,33 @@ def show_whatsapp_page(chatbot):
     phone_numbers = []
     if phone_file:
         try:
+            # Save phone number file to uploads/phone_numbers folder
+            file_content = phone_file.read()
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            safe_filename = f"{timestamp}_{phone_file.name.replace(' ', '_')}"
+            file_path = f"uploads/phone_numbers/{safe_filename}"
+            
+            with open(file_path, "wb") as f:
+                f.write(file_content)
+            
             if phone_file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
                 # Excel file - try different engines
                 try:
-                    df = pd.read_excel(phone_file, engine='openpyxl')
+                    df = pd.read_excel(file_path, engine='openpyxl')
                 except Exception as e1:
                     try:
-                        df = pd.read_excel(phone_file, engine='xlrd')
+                        df = pd.read_excel(file_path, engine='xlrd')
                     except Exception as e2:
                         try:
-                            df = pd.read_excel(phone_file, engine='odf')
+                            df = pd.read_excel(file_path, engine='odf')
                         except Exception as e3:
                             st.error(f"❌ Excel ফাইল পড়তে সমস্যা: {str(e3)}")
                             return
             else:
-                df = pd.read_csv(phone_file)
+                df = pd.read_csv(file_path)
             
             # Display phone numbers
-            st.success(f"✅ {len(df)} টি ফোন নম্বর লোড হয়েছে")
+            st.success(f"✅ {len(df)} টি ফোন নম্বর লোড এবং সেভ হয়েছে! 📁 {file_path}")
             st.dataframe(df.head(10))
             
             # Extract phone numbers
@@ -925,11 +1614,20 @@ def show_upload_page(chatbot):
         )
         
         if api_key_file:
-            st.success(f"✅ API কী ফাইল আপলোড হয়েছে: {api_key_file.name}")
-            
-            # Read and display API key content (masked)
             try:
-                content = api_key_file.read().decode('utf-8')
+                # Save API key file to uploads/api_keys folder
+                file_content = api_key_file.read()
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                safe_filename = f"{timestamp}_{api_key_file.name.replace(' ', '_')}"
+                file_path = f"uploads/api_keys/{safe_filename}"
+                
+                with open(file_path, "wb") as f:
+                    f.write(file_content)
+                
+                st.success(f"✅ API কী ফাইল সফলভাবে আপলোড এবং সেভ হয়েছে! 📁 {file_path}")
+                
+                # Read and display API key content (masked)
+                content = file_content.decode('utf-8')
                 
                 # Mask sensitive information
                 masked_content = content
@@ -1004,31 +1702,110 @@ def show_upload_page(chatbot):
                                 st.text(result['text'][:1000] + "..." if len(result['text']) > 1000 else result['text'])
     
     # Show uploaded files summary
-    if st.session_state.get('upload_files') or st.session_state.get('data_files') or st.session_state.get('doc_files'):
-        st.markdown("---")
-        st.markdown("### 📋 আপলোড করা ফাইলের তালিকা")
-        
-        all_files = []
-        if st.session_state.get('data_files'):
-            all_files.extend(st.session_state.get('data_files', []))
-        if st.session_state.get('doc_files'):
-            all_files.extend(st.session_state.get('doc_files', []))
-        
-        if all_files:
-            for i, file in enumerate(all_files):
+    st.markdown("---")
+    st.markdown("### 📋 আপলোড করা ফাইলের তালিকা")
+    
+    # Check uploads folders for files
+    import os
+    
+    # Data files
+    if os.path.exists("uploads/data_files"):
+        data_files = [f for f in os.listdir("uploads/data_files") if f.endswith(('.xlsx', '.csv'))]
+        if data_files:
+            st.markdown("#### 📊 ডেটা ফাইল")
+            for file in data_files:
+                file_path = f"uploads/data_files/{file}"
+                file_size = os.path.getsize(file_path)
                 col1, col2, col3 = st.columns([3, 2, 1])
                 with col1:
-                    st.write(f"📁 {file.name}")
+                    st.write(f"📁 {file}")
                 with col2:
-                    st.write(f"📏 {file.size} bytes")
+                    st.write(f"📏 {file_size} bytes")
                 with col3:
-                    if st.button(f"🗑️ মুছুন", key=f"del_{i}"):
-                        # Remove file from session state
-                        if file in st.session_state.get('data_files', []):
-                            st.session_state.data_files.remove(file)
-                        if file in st.session_state.get('doc_files', []):
-                            st.session_state.doc_files.remove(file)
-                        st.rerun()
+                    if st.button(f"🗑️ মুছুন", key=f"del_data_{file}"):
+                        try:
+                            os.remove(file_path)
+                            st.success(f"✅ {file} মুছে ফেলা হয়েছে!")
+                            st.rerun()
+                        except Exception as e:
+                            st.error(f"❌ ফাইল মুছতে সমস্যা: {str(e)}")
+    
+    # API key files
+    if os.path.exists("uploads/api_keys"):
+        api_files = [f for f in os.listdir("uploads/api_keys") if f.endswith(('.txt', '.env', '.json', '.yaml', '.yml'))]
+        if api_files:
+            st.markdown("#### 🔑 API কী ফাইল")
+            for file in api_files:
+                file_path = f"uploads/api_keys/{file}"
+                file_size = os.path.getsize(file_path)
+                col1, col2, col3 = st.columns([3, 2, 1])
+                with col1:
+                    st.write(f"🔑 {file}")
+                with col2:
+                    st.write(f"📏 {file_size} bytes")
+                with col3:
+                    if st.button(f"🗑️ মুছুন", key=f"del_api_{file}"):
+                        try:
+                            os.remove(file_path)
+                            st.success(f"✅ {file} মুছে ফেলা হয়েছে!")
+                            st.rerun()
+                        except Exception as e:
+                            st.error(f"❌ ফাইল মুছতে সমস্যা: {str(e)}")
+    
+    # Document files
+    if os.path.exists("uploads/documents"):
+        doc_files = [f for f in os.listdir("uploads/documents") if f.endswith(('.pdf', '.docx'))]
+        if doc_files:
+            st.markdown("#### 📚 ডকুমেন্ট ফাইল")
+            for file in doc_files:
+                file_path = f"uploads/documents/{file}"
+                file_size = os.path.getsize(file_path)
+                col1, col2, col3 = st.columns([3, 2, 1])
+                with col1:
+                    st.write(f"📖 {file}")
+                with col2:
+                    st.write(f"📏 {file_size} bytes")
+                with col3:
+                    if st.button(f"🗑️ মুছুন", key=f"del_doc_{file}"):
+                        try:
+                            os.remove(file_path)
+                            st.success(f"✅ {file} মুছে ফেলা হয়েছে!")
+                            st.rerun()
+                        except Exception as e:
+                            st.error(f"❌ ফাইল মুছতে সমস্যা: {str(e)}")
+    
+    # Phone number files
+    if os.path.exists("uploads/phone_numbers"):
+        phone_files = [f for f in os.listdir("uploads/phone_numbers") if f.endswith(('.xlsx', '.csv'))]
+        if phone_files:
+            st.markdown("#### 📞 ফোন নম্বর ফাইল")
+            for file in phone_files:
+                file_path = f"uploads/phone_numbers/{file}"
+                file_size = os.path.getsize(file_path)
+                col1, col2, col3 = st.columns([3, 2, 1])
+                with col1:
+                    st.write(f"📱 {file}")
+                with col2:
+                    st.write(f"📏 {file_size} bytes")
+                with col3:
+                    if st.button(f"🗑️ মুছুন", key=f"del_phone_{file}"):
+                        try:
+                            os.remove(file_path)
+                            st.success(f"✅ {file} মুছে ফেলা হয়েছে!")
+                            st.rerun()
+                        except Exception as e:
+                            st.error(f"❌ ফাইল মুছতে সমস্যা: {str(e)}")
+    
+    # Check if no files uploaded
+    total_files = 0
+    for folder in ["data_files", "api_keys", "documents", "phone_numbers"]:
+        if os.path.exists(f"uploads/{folder}"):
+            total_files += len([f for f in os.listdir(f"uploads/{folder}")])
+    
+    if total_files == 0:
+        st.info("📁 কোনো ফাইল আপলোড করা হয়নি। উপরে ফাইল আপলোড করুন।")
+    else:
+        st.success(f"📁 মোট {total_files} টি ফাইল আপলোড করা হয়েছে!")
 
 def show_help_page():
     """সাহায্য পেজ দেখানো"""
